@@ -31,7 +31,7 @@ class _SplashscreenState extends State<Splashscreen> {
             gradient: LinearGradient(
               begin: Alignment.topRight,
               end: Alignment.bottomRight,
-              colors: [Color(0xFF4CA9DF), Color(0xFF292E91)],
+              colors: [Color(0xFF0A369D), Color(0xFF70ADD1)],
             ),
           ),
           child: Column(
@@ -39,7 +39,7 @@ class _SplashscreenState extends State<Splashscreen> {
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 Column(children: [
-                  Image.asset('assets/images/logo.png',
+                  Image.asset('assets/images/cute.png',
                       height: 300.0, width: 300.0),
                   CircularProgressIndicator(),
                 ]),
