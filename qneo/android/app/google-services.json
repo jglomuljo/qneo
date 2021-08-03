@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "307383643336",
+    "project_id": "q-neo-firebase",
+    "storage_bucket": "q-neo-firebase.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:307383643336:android:17b0fef14be644120889fd",
+        "android_client_info": {
+          "package_name": "com.example.qneo"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "307383643336-334q3ebsmt4spd25939n0tt2hv3k7k9i.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA9dM2WrVkk4NW-OGXrg8aRHDWOs-7ZzP4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "307383643336-334q3ebsmt4spd25939n0tt2hv3k7k9i.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

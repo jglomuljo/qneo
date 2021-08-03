@@ -2,7 +2,8 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:qneo/homepage.dart';
+import 'package:qneo/Screens/homepage.dart';
+import 'package:qneo/loggedin.dart';
 
 class Splashscreen extends StatefulWidget {
   const Splashscreen({Key? key}) : super(key: key);
@@ -18,7 +19,7 @@ class _SplashscreenState extends State<Splashscreen> {
     Timer(
         Duration(seconds: 3),
         () => Navigator.pushReplacement(
-            context, MaterialPageRoute(builder: (context) => Home())));
+            context, MaterialPageRoute(builder: (context) => LoggedIn())));
   }
 
   @override
