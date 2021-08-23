@@ -1,36 +1,16 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:qneo/provider/google_sign_in.dart';
+import 'package:provider/provider.dart';
 
-class ProfilePage extends StatefulWidget {
-  const ProfilePage({Key? key}) : super(key: key);
-
-  @override
-  _ProfilePageState createState() => _ProfilePageState();
-}
-
-class _ProfilePageState extends State<ProfilePage> {
+class UserPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final user = FirebaseAuth.instance.currentUser!;
-
     return Scaffold(
       appBar: AppBar(
         title: Text('Profile', style: TextStyle(color: Colors.white)),
-        actions: [
-          TextButton(
-            child: Text(
-              'Logout',
-              style: TextStyle(color: Colors.white),
-            ),
-            onPressed: () {
-              final provider =
-                  Provider.of<GoogleSignInProvider>(context, listen: false);
-              provider.logout();
-            },
-          )
-        ],
+        centerTitle: true,
       ),
       body: Container(
         alignment: Alignment.center,
@@ -64,6 +44,33 @@ class _ProfilePageState extends State<ProfilePage> {
                   fontWeight: FontWeight.bold),
             ),
             //Text(user.email!),
+            SizedBox(height: 30),
+            ElevatedButton(
+              child: Text(
+                'Logout',
+                style: TextStyle(color: Colors.white),
+              ),
+              onPressed: () {
+                final provider =
+                    Provider.of<GoogleSignInProvider>(context, listen: false);
+                provider.logout();
+              },
+            ),
+            // SizedBox(height: 30),
+            // ElevatedButton(
+            //   child: Text(
+            //     'Test Dialog',
+            //     style: TextStyle(color: Colors.white),
+            //   ),
+            //   onPressed: () {
+            //     showDialog(
+            //         context: context,
+            //         barrierDismissible: true,
+            //         builder: (BuildContext context) {
+            //           return Confirmation();
+            //         });
+            //   },
+            // ),
           ],
         ),
       ),

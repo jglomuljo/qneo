@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:qneo/provider/google_sign_in.dart';
-import 'package:qneo/Screens/splash_screen.dart';
+import 'package:qneo/Screens/0_splash_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 
 Future main() async {

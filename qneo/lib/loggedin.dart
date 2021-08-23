@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:qneo/Screens/homepage.dart';
-import 'package:qneo/Screens/profilepage.dart';
+import 'package:qneo/Screens/1_loginpage.dart';
+import 'package:qneo/Screens/2_home.dart';
 
 // class LoggedIn extends StatefulWidget {
 //   const LoggedIn({Key? key}) : super(key: key);

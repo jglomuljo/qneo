@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:qneo/Screens/homepage.dart';
+//import 'package:qneo/Screens/homepage.dart';
 import 'package:qneo/loggedin.dart';
 
 class Splashscreen extends StatefulWidget {
