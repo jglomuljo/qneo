@@ -286,12 +286,12 @@ class _LocationsPage extends State<LocationsPage> {
   }
 }
 
-class Places {
-  final String status;
-  final String room;
-  final String building;
-  final DateTime date;
-  final TimeOfDay time;
+// class Places {
+//   final String status;
+//   final String room;
+//   final String building;
+//   final DateTime date;
+//   final TimeOfDay time;
 
-  Places(this.status, this.room, this.building, this.date, this.time);
-}
+//   Places(this.status, this.room, this.building, this.date, this.time);
+// }
