@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:qneo/Screens/profilepage.dart';
+import 'package:qneo/services/database.dart';
 
 class GoogleSignInProvider extends ChangeNotifier {
   final googleSignIn = GoogleSignIn();
@@ -24,6 +25,9 @@ class GoogleSignInProvider extends ChangeNotifier {
       );
 
       await FirebaseAuth.instance.signInWithCredential(credential);
+      final user = FirebaseAuth.instance.currentUser!;
+      print(user.uid);
+      //await DatabaseService(uid: user.uid).updateUserData('Finster 6th Floor');
       return ProfilePage();
     } catch (e) {
       print(e.toString());

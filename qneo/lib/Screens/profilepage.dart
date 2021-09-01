@@ -1,7 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:qneo/Screens/recent%20location/recentLocations.dart';
 import 'package:qneo/provider/google_sign_in.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({Key? key}) : super(key: key);
@@ -33,6 +35,7 @@ class _ProfilePageState extends State<ProfilePage> {
         ],
       ),
       body: Container(
+        padding: EdgeInsets.symmetric(horizontal: 35, vertical: 50),
         alignment: Alignment.center,
         color: Colors.blue[800],
         child: Column(
@@ -52,7 +55,6 @@ class _ProfilePageState extends State<ProfilePage> {
                   letterSpacing: 0.5,
                   fontWeight: FontWeight.bold),
             ),
-            //Text(user.displayName!),
             SizedBox(height: 40),
             Text(
               'E-mail: ' + user.email!,
@@ -63,7 +65,19 @@ class _ProfilePageState extends State<ProfilePage> {
                   letterSpacing: 0.5,
                   fontWeight: FontWeight.bold),
             ),
-            //Text(user.email!),
+            SizedBox(height: 40),
+            ElevatedButton.icon(
+              style: ElevatedButton.styleFrom(
+                  primary: Colors.blue[600],
+                  onPrimary: Colors.white,
+                  minimumSize: Size(double.infinity, 50)),
+              icon: FaIcon(FontAwesomeIcons.locationArrow),
+              label: Text('Recent Locations'),
+              onPressed: () {
+                Navigator.pushReplacement(context,
+                    MaterialPageRoute(builder: (context) => RecentLocations()));
+              },
+            ),
           ],
         ),
       ),
