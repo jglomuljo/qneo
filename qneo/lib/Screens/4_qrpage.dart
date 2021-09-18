@@ -1,5 +1,4 @@
 //import 'dart:js';
-
 import 'package:flutter/material.dart';
 import 'package:qneo/Screens/3_userpage.dart';
 import 'package:qneo/Screens/5_locationspage.dart';
@@ -103,7 +102,8 @@ class _QRScanPageState extends State<QRPage> {
 
   Widget reminder() {
     if (barcode != null) {
-      return Confirmation();
+      print(barcode);
+      return Confirmation(barcode);
     } else {
       return notebelow();
     }
@@ -196,22 +196,76 @@ class _QRScanPageState extends State<QRPage> {
 //   }
 // }
 
+// class Confirmation extends StatefulWidget {
+//   final Barcode? barcode;
+//   const Confirmation({Key? key, this.barcode}) : super(key: key);
+
+//   @override
+//   _ConfirmationState createState() => _ConfirmationState();
+// }
+
+// class _ConfirmationState extends State<Confirmation> {
+//   @override
+//   Widget build(BuildContext context) {
+//     return AlertDialog(
+//       shape: RoundedRectangleBorder(
+//         borderRadius: BorderRadius.circular(50),
+//       ),
+//       title: Text('Scan Successful ' + widget.barcode!.code),
+//       content: const Text('Tap "OK" to record location.'),
+//       actions: <Widget>[
+//         TextButton(
+//           onPressed: () {
+//             //ProfilePage(currentScreen: UserPage());
+//             Navigator.pushReplacement(
+//                 context,
+//                 MaterialPageRoute(
+//                     builder: (context) =>
+//                         ProfilePage(currentScreen: UserPage())));
+//           },
+//           child: const Text('Cancel'),
+//         ),
+//         ElevatedButton(
+//           onPressed: () {
+//             //ProfilePage(currentScreen: LocationsPage());
+//             Navigator.pushReplacement(
+//                 context,
+//                 MaterialPageRoute(
+//                     builder: (context) =>
+//                         ProfilePage(currentScreen: LocationsPage())));
+//           }, //func here
+//           child: const Text('OK'),
+//         ),
+//       ],
+//     );
+//   }
+// }
+
 class Confirmation extends StatelessWidget {
+  final Barcode? barcode;
+  Confirmation(this.barcode);
+
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(50),
       ),
-      title: const Text('Scan Successful'),
+      title: Text('Scan Successful ' + this.barcode!.code),
       content: const Text('Tap "OK" to record location.'),
       actions: <Widget>[
         TextButton(
-          onPressed: () => Navigator.of(context).pop, //func here
+          onPressed: () {
+            Navigator.pushReplacement(context,
+                MaterialPageRoute(builder: (context) => ProfilePage()));
+          },
           child: const Text('Cancel'),
         ),
         ElevatedButton(
-          onPressed: () => Navigator.of(context).pop, //func here
+          onPressed: () {
+            Navigator.pushReplacement(context,
+                MaterialPageRoute(builder: (context) => ProfilePage()));
+          }, //func here
           child: const Text('OK'),
         ),
       ],

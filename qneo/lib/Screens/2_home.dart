@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:qr_code_scanner/qr_code_scanner.dart';
 // import 'package:provider/provider.dart';
 // import 'package:qneo/provider/google_sign_in.dart';
 //import 'package:flutter/src/widgets/framework.dart';
@@ -7,7 +8,8 @@ import '4_qrpage.dart';
 import '5_locationspage.dart';
 
 class ProfilePage extends StatefulWidget {
-  const ProfilePage({Key? key}) : super(key: key);
+  final String? currentScreen;
+  ProfilePage({Key? key, this.currentScreen}) : super(key: key);
 
   @override
   _ProfilePageState createState() => _ProfilePageState();
@@ -22,19 +24,19 @@ class _ProfilePageState extends State<ProfilePage> {
   ];
 
   final PageStorageBucket bucket = PageStorageBucket();
-  Widget currentScreen = UserPage();
+  Widget screen = UserPage();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: PageStorage(child: currentScreen, bucket: bucket),
+      body: PageStorage(child: screen, bucket: bucket),
       floatingActionButton: FloatingActionButton(
           child: Icon(
             Icons.qr_code_scanner_rounded,
           ),
           onPressed: () {
             setState(() {
-              currentScreen = QRPage();
+              screen = QRPage();
             });
           }),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
@@ -53,7 +55,7 @@ class _ProfilePageState extends State<ProfilePage> {
                       minWidth: 155,
                       onPressed: () {
                         setState(() {
-                          currentScreen = UserPage();
+                          screen = UserPage();
                           currentTab = 0;
                         });
                       },
@@ -83,7 +85,7 @@ class _ProfilePageState extends State<ProfilePage> {
                       minWidth: 155,
                       onPressed: () {
                         setState(() {
-                          currentScreen = LocationsPage();
+                          screen = LocationsPage();
                           currentTab = 2;
                         });
                       },

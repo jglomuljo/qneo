@@ -12,7 +12,6 @@ class LocationsPage extends StatefulWidget {
   _LocationsPage createState() => _LocationsPage();
 }
 
-// ignore: must_be_immutable
 class _LocationsPage extends State<LocationsPage> {
   DateTime dateTime = DateTime.now();
 
@@ -22,26 +21,27 @@ class _LocationsPage extends State<LocationsPage> {
         value: DatabaseService().locations,
         initialData: null,
         child: Scaffold(
-            appBar: AppBar(
-              title: Text('Recent Locations',
-                  style: TextStyle(color: Colors.white)),
-              actions: [
-                IconButton(
-                  icon: Icon(Icons.date_range_rounded),
-                  onPressed: () => showSheet(
-                    context,
-                    child: buildDatePicker(),
-                    onClicked: () {
-                      final value = DateFormat('yyyy/MM/dd').format(dateTime);
-                      showSnackBar(context, 'Selected "$value"');
+          appBar: AppBar(
+            title:
+                Text('Recent Locations', style: TextStyle(color: Colors.white)),
+            actions: [
+              IconButton(
+                icon: Icon(Icons.date_range_rounded),
+                onPressed: () => showSheet(
+                  context,
+                  child: buildDatePicker(),
+                  onClicked: () {
+                    final value = DateFormat('yyyy/MM/dd').format(dateTime);
+                    showSnackBar(context, 'Selected "$value"');
 
-                      Navigator.pop(context);
-                    },
-                  ),
+                    Navigator.pop(context);
+                  },
                 ),
-              ],
-            ),
-            body: LocationList()));
+              ),
+            ],
+          ),
+          body: LocationList(),
+        ));
   }
   // => Scaffold(
   //       appBar: AppBar(
