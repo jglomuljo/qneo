@@ -8,8 +8,9 @@ import '4_qrpage.dart';
 import '5_locationspage.dart';
 
 class ProfilePage extends StatefulWidget {
-  final String? currentScreen;
-  ProfilePage({Key? key, this.currentScreen}) : super(key: key);
+  const ProfilePage({
+    Key? key,
+  }) : super(key: key);
 
   @override
   _ProfilePageState createState() => _ProfilePageState();

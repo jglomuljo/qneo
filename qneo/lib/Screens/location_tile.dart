@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:qneo/models/location.dart';
+import 'package:qneo/models/allLocations.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 class LocationTile extends StatelessWidget {
   final user = FirebaseAuth.instance.currentUser!;
-  final Location loc;
-  LocationTile(this.loc);
+  //final Location loc;
+  final AllLocations locations;
+  final userLocations;
+  LocationTile(this.locations, this.userLocations);
 
   @override
   Widget build(BuildContext context) {
@@ -16,10 +18,11 @@ class LocationTile extends StatelessWidget {
         child: ListTile(
           leading: CircleAvatar(
             radius: 25,
-            backgroundImage: NetworkImage(user.photoURL!),
+            backgroundImage: AssetImage('assets/images/location-pin.png'),
           ),
-          title: Text(loc.location),
-          subtitle: Text(loc.user),
+          title: Text(locations.building),
+          subtitle: Text(userLocations['dateTime'].toString()),
+          trailing: Text(locations.room),
         ),
       ),
     );

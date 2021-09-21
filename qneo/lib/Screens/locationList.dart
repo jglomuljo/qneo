@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:qneo/models/location.dart';
+import 'package:qneo/models/allLocations.dart';
 import 'package:qneo/Screens/location_tile.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
@@ -16,15 +17,30 @@ class _LocationListState extends State<LocationList> {
   Widget build(BuildContext context) {
     final user = FirebaseAuth.instance.currentUser!;
     final locations = Provider.of<List<Location>?>(context) ?? [];
+    final allLocations = Provider.of<List<AllLocations>?>(context) ?? [];
+    List userLocs = [];
+    for (final record in locations) {
+      var temp = {
+        'User': record.user,
+        'dateTime': record.dateTime,
+        'location': record.location,
+      };
+      userLocs.add(temp);
+    }
+
+    userLocs.sort((a, b) => b['dateTime'].compareTo(a['dateTime']));
 
     return ListView.builder(
-      itemCount: locations.length,
+      itemCount: userLocs.length,
       itemBuilder: (context, index) {
-        if (locations[index].user == user.uid) {
-          return LocationTile(locations[index]);
-        } else {
-          return SizedBox(height: 0);
+        if (userLocs[index]["User"] == user.uid) {
+          for (var i = 0; i < allLocations.length; i++) {
+            if (allLocations[i].uid == userLocs[index]["location"]) {
+              return LocationTile(allLocations[i], userLocs[index]);
+            }
+          }
         }
+        return SizedBox(height: 0);
       },
     );
   }

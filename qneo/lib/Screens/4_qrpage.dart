@@ -1,7 +1,9 @@
-//import 'dart:js';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:qneo/Screens/3_userpage.dart';
+import 'package:provider/provider.dart';
 import 'package:qneo/Screens/5_locationspage.dart';
+import 'package:qneo/models/allLocations.dart';
+import 'package:qneo/services/database.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 import 'dart:io' show Platform;
 import '2_home.dart';
@@ -102,7 +104,7 @@ class _QRScanPageState extends State<QRPage> {
 
   Widget reminder() {
     if (barcode != null) {
-      print(barcode);
+      print(barcode?.code);
       return Confirmation(barcode);
     } else {
       return notebelow();
@@ -207,6 +209,8 @@ class _QRScanPageState extends State<QRPage> {
 // class _ConfirmationState extends State<Confirmation> {
 //   @override
 //   Widget build(BuildContext context) {
+//     //final allLocations = Provider.of<List<AllLocations>?>(context) ?? [];
+//     //print(allLocations);
 //     return AlertDialog(
 //       shape: RoundedRectangleBorder(
 //         borderRadius: BorderRadius.circular(50),
@@ -216,23 +220,41 @@ class _QRScanPageState extends State<QRPage> {
 //       actions: <Widget>[
 //         TextButton(
 //           onPressed: () {
-//             //ProfilePage(currentScreen: UserPage());
-//             Navigator.pushReplacement(
-//                 context,
-//                 MaterialPageRoute(
-//                     builder: (context) =>
-//                         ProfilePage(currentScreen: UserPage())));
+//             Navigator.pushReplacement(context,
+//                 MaterialPageRoute(builder: (context) => ProfilePage()));
 //           },
 //           child: const Text('Cancel'),
 //         ),
 //         ElevatedButton(
-//           onPressed: () {
-//             //ProfilePage(currentScreen: LocationsPage());
-//             Navigator.pushReplacement(
-//                 context,
-//                 MaterialPageRoute(
-//                     builder: (context) =>
-//                         ProfilePage(currentScreen: LocationsPage())));
+//           onPressed: () async {
+//             // for (var record in allLocations) {
+//             //   if (record.uid == widget.barcode!.code.toString()) {
+//             //     await DatabaseService()
+//             //         .updateUserData(widget.barcode!.code.toString());
+//             //   } else {
+//             //     return showDialog(
+//             //       context: context,
+//             //       builder: (BuildContext context) {
+//             //         return AlertDialog(
+//             //           title: new Text("Alert!!"),
+//             //           content: new Text("Invalid QR code"),
+//             //           actions: <Widget>[
+//             //             new TextButton(
+//             //               child: new Text("OK"),
+//             //               onPressed: () {
+//             //                 Navigator.of(context).pop();
+//             //               },
+//             //             ),
+//             //           ],
+//             //         );
+//             //       },
+//             //     );
+//             //   }
+//             // }
+//             await DatabaseService()
+//                 .updateUserData(widget.barcode!.code.toString());
+//             Navigator.pushReplacement(context,
+//                 MaterialPageRoute(builder: (context) => ProfilePage()));
 //           }, //func here
 //           child: const Text('OK'),
 //         ),
@@ -247,6 +269,7 @@ class Confirmation extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final user = FirebaseAuth.instance.currentUser!;
     return AlertDialog(
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(50),
@@ -262,7 +285,9 @@ class Confirmation extends StatelessWidget {
           child: const Text('Cancel'),
         ),
         ElevatedButton(
-          onPressed: () {
+          onPressed: () async {
+            await DatabaseService().updateUserData(
+                user.uid.toString(), this.barcode!.code.toString());
             Navigator.pushReplacement(context,
                 MaterialPageRoute(builder: (context) => ProfilePage()));
           }, //func here
@@ -273,6 +298,22 @@ class Confirmation extends StatelessWidget {
   }
 }
 
+// class Validation extends StatefulWidget {
+//   const Validation({ Key? key }) : super(key: key);
+
+//   @override
+//   _ValidationState createState() => _ValidationState();
+// }
+
+// class _ValidationState extends State<Validation> {
+//   @override
+//   Widget build(BuildContext context) {
+//     final allLocations = Provider.of<List<AllLocations>?>(context) ?? [];
+//     return Container(
+      
+//     );
+//   }
+// }
 
 
 // class Reminder extends StatelessWidget {

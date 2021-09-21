@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter/rendering.dart';
 import 'package:provider/provider.dart';
+import 'package:qneo/models/allLocations.dart';
 import 'package:qneo/models/location.dart';
 import 'package:qneo/services/database.dart';
 import 'package:qneo/Screens/locationList.dart';
@@ -17,9 +18,17 @@ class _LocationsPage extends State<LocationsPage> {
 
   @override
   Widget build(BuildContext context) {
-    return StreamProvider<List<Location>?>.value(
-        value: DatabaseService().locations,
-        initialData: null,
+    return MultiProvider(
+        providers: [
+          StreamProvider<List<AllLocations>?>.value(
+            value: DatabaseService().allLocations,
+            initialData: null,
+          ),
+          StreamProvider<List<Location>?>.value(
+            value: DatabaseService().locations,
+            initialData: null,
+          ),
+        ],
         child: Scaffold(
           appBar: AppBar(
             title:
@@ -43,6 +52,32 @@ class _LocationsPage extends State<LocationsPage> {
           body: LocationList(),
         ));
   }
+  //   return StreamProvider<List<AllLocations>?>.value(
+  //       value: DatabaseService().allLocations,
+  //       initialData: null,
+  //       child: Scaffold(
+  //         appBar: AppBar(
+  //           title:
+  //               Text('Recent Locations', style: TextStyle(color: Colors.white)),
+  //           actions: [
+  //             IconButton(
+  //               icon: Icon(Icons.date_range_rounded),
+  //               onPressed: () => showSheet(
+  //                 context,
+  //                 child: buildDatePicker(),
+  //                 onClicked: () {
+  //                   final value = DateFormat('yyyy/MM/dd').format(dateTime);
+  //                   showSnackBar(context, 'Selected "$value"');
+
+  //                   Navigator.pop(context);
+  //                 },
+  //               ),
+  //             ),
+  //           ],
+  //         ),
+  //         body: LocationList(),
+  //       ));
+  // }
   // => Scaffold(
   //       appBar: AppBar(
   //         title:
