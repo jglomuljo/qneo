@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:qneo/Screens/1_loginpage.dart';
 import 'package:qneo/provider/google_sign_in.dart';
 import 'package:provider/provider.dart';
 
@@ -54,6 +55,8 @@ class UserPage extends StatelessWidget {
                 final provider =
                     Provider.of<GoogleSignInProvider>(context, listen: false);
                 provider.logout();
+                Navigator.pushReplacement(
+                    context, MaterialPageRoute(builder: (context) => Home()));
               },
             ),
             // SizedBox(height: 30),

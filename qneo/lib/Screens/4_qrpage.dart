@@ -1,7 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:qneo/Screens/5_locationspage.dart';
 import 'package:qneo/models/allLocations.dart';
 import 'package:qneo/services/database.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
@@ -104,8 +103,7 @@ class _QRScanPageState extends State<QRPage> {
 
   Widget reminder() {
     if (barcode != null) {
-      print(barcode?.code);
-      return Confirmation(barcode);
+      return Validation(barcode: barcode);
     } else {
       return notebelow();
     }
@@ -198,24 +196,80 @@ class _QRScanPageState extends State<QRPage> {
 //   }
 // }
 
-// class Confirmation extends StatefulWidget {
+class Confirmation extends StatefulWidget {
+  final Barcode? barcode;
+  const Confirmation({Key? key, this.barcode}) : super(key: key);
+
+  @override
+  _ConfirmationState createState() => _ConfirmationState();
+}
+
+class _ConfirmationState extends State<Confirmation> {
+  @override
+  Widget build(BuildContext context) {
+    final user = FirebaseAuth.instance.currentUser!;
+    final allLocations = Provider.of<List<AllLocations>?>(context) ?? [];
+    for (var i = 0; i < allLocations.length; i++) {
+      if (allLocations[i].uid == widget.barcode!.code) {
+        return AlertDialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(50),
+          ),
+          title: Text('Scan Successful'),
+          content: const Text('Tap "OK" to record location.'),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () {
+                Navigator.pushReplacement(context,
+                    MaterialPageRoute(builder: (context) => ProfilePage()));
+              },
+              child: const Text('Cancel'),
+            ),
+            ElevatedButton(
+              onPressed: () async {
+                await DatabaseService().updateUserData(
+                    user.uid.toString(), widget.barcode!.code.toString());
+                Navigator.pushReplacement(context,
+                    MaterialPageRoute(builder: (context) => ProfilePage()));
+              }, //func here
+              child: const Text('OK'),
+            ),
+          ],
+        );
+      }
+      // return AlertDialog(
+      //   shape: RoundedRectangleBorder(
+      //     borderRadius: BorderRadius.circular(50),
+      //   ),
+      //   title: Text('Scan Failed'),
+      //   content: const Text('Invalid Code'),
+      //   actions: <Widget>[
+      //     TextButton(
+      //       onPressed: () {
+      //         Navigator.pushReplacement(context,
+      //             MaterialPageRoute(builder: (context) => ProfilePage()));
+      //       },
+      //       child: const Text('Cancel'),
+      //     )
+      //   ],
+      // );
+    }
+    return Container();
+  }
+}
+
+// class Confirmation extends StatelessWidget {
 //   final Barcode? barcode;
-//   const Confirmation({Key? key, this.barcode}) : super(key: key);
+//   Confirmation(this.barcode);
 
-//   @override
-//   _ConfirmationState createState() => _ConfirmationState();
-// }
-
-// class _ConfirmationState extends State<Confirmation> {
 //   @override
 //   Widget build(BuildContext context) {
-//     //final allLocations = Provider.of<List<AllLocations>?>(context) ?? [];
-//     //print(allLocations);
+//     final user = FirebaseAuth.instance.currentUser!;
 //     return AlertDialog(
 //       shape: RoundedRectangleBorder(
 //         borderRadius: BorderRadius.circular(50),
 //       ),
-//       title: Text('Scan Successful ' + widget.barcode!.code),
+//       title: Text('Scan Successful ' + this.barcode!.code),
 //       content: const Text('Tap "OK" to record location.'),
 //       actions: <Widget>[
 //         TextButton(
@@ -227,32 +281,8 @@ class _QRScanPageState extends State<QRPage> {
 //         ),
 //         ElevatedButton(
 //           onPressed: () async {
-//             // for (var record in allLocations) {
-//             //   if (record.uid == widget.barcode!.code.toString()) {
-//             //     await DatabaseService()
-//             //         .updateUserData(widget.barcode!.code.toString());
-//             //   } else {
-//             //     return showDialog(
-//             //       context: context,
-//             //       builder: (BuildContext context) {
-//             //         return AlertDialog(
-//             //           title: new Text("Alert!!"),
-//             //           content: new Text("Invalid QR code"),
-//             //           actions: <Widget>[
-//             //             new TextButton(
-//             //               child: new Text("OK"),
-//             //               onPressed: () {
-//             //                 Navigator.of(context).pop();
-//             //               },
-//             //             ),
-//             //           ],
-//             //         );
-//             //       },
-//             //     );
-//             //   }
-//             // }
-//             await DatabaseService()
-//                 .updateUserData(widget.barcode!.code.toString());
+//             await DatabaseService().updateUserData(
+//                 user.uid.toString(), this.barcode!.code.toString());
 //             Navigator.pushReplacement(context,
 //                 MaterialPageRoute(builder: (context) => ProfilePage()));
 //           }, //func here
@@ -263,57 +293,24 @@ class _QRScanPageState extends State<QRPage> {
 //   }
 // }
 
-class Confirmation extends StatelessWidget {
+class Validation extends StatefulWidget {
   final Barcode? barcode;
-  Confirmation(this.barcode);
+  const Validation({Key? key, this.barcode}) : super(key: key);
 
   @override
+  _ValidationState createState() => _ValidationState();
+}
+
+class _ValidationState extends State<Validation> {
+  @override
   Widget build(BuildContext context) {
-    final user = FirebaseAuth.instance.currentUser!;
-    return AlertDialog(
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(50),
-      ),
-      title: Text('Scan Successful ' + this.barcode!.code),
-      content: const Text('Tap "OK" to record location.'),
-      actions: <Widget>[
-        TextButton(
-          onPressed: () {
-            Navigator.pushReplacement(context,
-                MaterialPageRoute(builder: (context) => ProfilePage()));
-          },
-          child: const Text('Cancel'),
-        ),
-        ElevatedButton(
-          onPressed: () async {
-            await DatabaseService().updateUserData(
-                user.uid.toString(), this.barcode!.code.toString());
-            Navigator.pushReplacement(context,
-                MaterialPageRoute(builder: (context) => ProfilePage()));
-          }, //func here
-          child: const Text('OK'),
-        ),
-      ],
+    return StreamProvider<List<AllLocations>?>.value(
+      value: DatabaseService().allLocations,
+      initialData: null,
+      child: Confirmation(barcode: widget.barcode),
     );
   }
 }
-
-// class Validation extends StatefulWidget {
-//   const Validation({ Key? key }) : super(key: key);
-
-//   @override
-//   _ValidationState createState() => _ValidationState();
-// }
-
-// class _ValidationState extends State<Validation> {
-//   @override
-//   Widget build(BuildContext context) {
-//     final allLocations = Provider.of<List<AllLocations>?>(context) ?? [];
-//     return Container(
-      
-//     );
-//   }
-// }
 
 
 // class Reminder extends StatelessWidget {
