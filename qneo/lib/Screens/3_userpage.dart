@@ -55,8 +55,6 @@ class UserPage extends StatelessWidget {
                 final provider =
                     Provider.of<GoogleSignInProvider>(context, listen: false);
                 provider.logout();
-                Navigator.pushReplacement(
-                    context, MaterialPageRoute(builder: (context) => Home()));
               },
             ),
             // SizedBox(height: 30),

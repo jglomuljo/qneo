@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:qneo/Screens/1_loginpage.dart';
 import 'package:qneo/Screens/2_home.dart';
 
 class GoogleSignInProvider extends ChangeNotifier {
@@ -24,6 +25,7 @@ class GoogleSignInProvider extends ChangeNotifier {
       );
 
       await FirebaseAuth.instance.signInWithCredential(credential);
+
       return ProfilePage();
     } catch (e) {
       print(e.toString());
@@ -35,5 +37,6 @@ class GoogleSignInProvider extends ChangeNotifier {
   Future logout() async {
     await googleSignIn.disconnect();
     FirebaseAuth.instance.signOut();
+    return Home();
   }
 }
