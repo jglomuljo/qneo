@@ -57,21 +57,6 @@ class UserPage extends StatelessWidget {
                 provider.logout();
               },
             ),
-            // SizedBox(height: 30),
-            // ElevatedButton(
-            //   child: Text(
-            //     'Test Dialog',
-            //     style: TextStyle(color: Colors.white),
-            //   ),
-            //   onPressed: () {
-            //     showDialog(
-            //         context: context,
-            //         barrierDismissible: true,
-            //         builder: (BuildContext context) {
-            //           return Confirmation();
-            //         });
-            //   },
-            // ),
           ],
         ),
       ),
