@@ -4,6 +4,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:provider/provider.dart';
 import 'package:qneo/provider/google_sign_in.dart';
+import '2_home.dart';
 
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
@@ -79,11 +80,15 @@ class _HomeState extends State<Home> {
                         minimumSize: Size(double.infinity, 50)),
                     icon: FaIcon(FontAwesomeIcons.google),
                     label: Text('Sign In with Google'),
-                    onPressed: () {
+                    onPressed: () async {
                       final provider = Provider.of<GoogleSignInProvider>(
                           context,
                           listen: false);
-                      provider.googleLogin();
+                      await provider.googleLogin();
+                      Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => ProfilePage()));
                     },
                   ),
                 ],

@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:qneo/models/allLocations.dart';
+import 'package:qneo/models/location.dart';
 import 'package:qneo/services/database.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 import 'dart:io' show Platform;
@@ -133,68 +134,7 @@ class _QRScanPageState extends State<QRPage> {
     controller.scannedDataStream
         .listen((barcode) => setState(() => this.barcode = barcode));
   }
-
-//   Widget accept() {
-//     return AlertDialog(
-//       context: context,
-//       barrierDismissible: false,
-//       builder: (BuildContext context) {
-//         return AlertDialog(
-//           shape: RoundedRectangleBorder(
-//             borderRadius: BorderRadius.circular(50),
-//           ),
-//           title: Text('Scan complete'),
-//           content: Text('Tap "Yes" to confirm.\n Tap "No" to abort.'),
-//           actions: <Widget>[
-//             TextButton(
-//               onPressed: () => Navigator.of(context).pop(DialogAction.abort),
-//               child: const Text('No'),
-//             ),
-//             ElevatedButton(
-//               onPressed: () => Navigator.of(context).pop(DialogAction.abort),
-//               child: const Text('Yes'),
-//             ),
-//           ],
-//         );
-//       },
-//     );
-//   }
 }
-
-// enum DialogAction { yes, abort }
-
-// class Accept {
-//   static Future<DialogAction> dialogYesAbort(
-//     BuildContext context,
-//     String title,
-//     String body,
-//   ) async {
-//     final action = await showDialog(
-//       context: context,
-//       barrierDismissible: false,
-//       builder: (BuildContext context) {
-//         return AlertDialog(
-//           shape: RoundedRectangleBorder(
-//             borderRadius: BorderRadius.circular(50),
-//           ),
-//           title: Text(title),
-//           content: Text(body),
-//           actions: <Widget>[
-//             TextButton(
-//               onPressed: () => Navigator.of(context).pop(DialogAction.abort),
-//               child: const Text('No'),
-//             ),
-//             ElevatedButton(
-//               onPressed: () => Navigator.of(context).pop(DialogAction.abort),
-//               child: const Text('Yes'),
-//             ),
-//           ],
-//         );
-//       },
-//     );
-//     return (action != null) ? action : DialogAction.abort;
-//   }
-// }
 
 class Confirmation extends StatefulWidget {
   final Barcode? barcode;
@@ -209,6 +149,36 @@ class _ConfirmationState extends State<Confirmation> {
   Widget build(BuildContext context) {
     final user = FirebaseAuth.instance.currentUser!;
     final allLocations = Provider.of<List<AllLocations>?>(context) ?? [];
+    final locations = Provider.of<List<Location>?>(context) ?? [];
+    List userLocs = [];
+    var status = 'Time-in';
+    var barcodeLocation = widget.barcode!.code.toString();
+    for (final record in locations) {
+      var temp = {
+        'User': record.user,
+        'dateTime': record.dateTime,
+        'location': record.location,
+        'status': record.status
+      };
+      userLocs.add(temp);
+    }
+    userLocs.sort((a, b) => b['dateTime'].compareTo(a['dateTime']));
+
+    if (userLocs.length > 0 &&
+        userLocs[0]['status'] == 'Time-in' &&
+        userLocs[0]['location'] != barcodeLocation) {
+      //barcodeLocation = userLocs[0]['location'];
+      status = 'Time-out';
+      DatabaseService()
+          .updateUserData(user.uid.toString(), userLocs[0]['location'], status);
+    }
+
+    if (userLocs.length > 0 &&
+        userLocs[0]['status'] == 'Time-in' &&
+        userLocs[0]['location'] == barcodeLocation) {
+      status = 'Time-out';
+    }
+
     for (var i = 0; i < allLocations.length; i++) {
       if (allLocations[i].uid == widget.barcode!.code) {
         return AlertDialog(
@@ -228,7 +198,7 @@ class _ConfirmationState extends State<Confirmation> {
             ElevatedButton(
               onPressed: () async {
                 await DatabaseService().updateUserData(
-                    user.uid.toString(), widget.barcode!.code.toString());
+                    user.uid.toString(), barcodeLocation, status);
                 Navigator.pushReplacement(context,
                     MaterialPageRoute(builder: (context) => ProfilePage()));
               }, //func here
@@ -258,41 +228,6 @@ class _ConfirmationState extends State<Confirmation> {
   }
 }
 
-// class Confirmation extends StatelessWidget {
-//   final Barcode? barcode;
-//   Confirmation(this.barcode);
-
-//   @override
-//   Widget build(BuildContext context) {
-//     final user = FirebaseAuth.instance.currentUser!;
-//     return AlertDialog(
-//       shape: RoundedRectangleBorder(
-//         borderRadius: BorderRadius.circular(50),
-//       ),
-//       title: Text('Scan Successful ' + this.barcode!.code),
-//       content: const Text('Tap "OK" to record location.'),
-//       actions: <Widget>[
-//         TextButton(
-//           onPressed: () {
-//             Navigator.pushReplacement(context,
-//                 MaterialPageRoute(builder: (context) => ProfilePage()));
-//           },
-//           child: const Text('Cancel'),
-//         ),
-//         ElevatedButton(
-//           onPressed: () async {
-//             await DatabaseService().updateUserData(
-//                 user.uid.toString(), this.barcode!.code.toString());
-//             Navigator.pushReplacement(context,
-//                 MaterialPageRoute(builder: (context) => ProfilePage()));
-//           }, //func here
-//           child: const Text('OK'),
-//         ),
-//       ],
-//     );
-//   }
-// }
-
 class Validation extends StatefulWidget {
   final Barcode? barcode;
   const Validation({Key? key, this.barcode}) : super(key: key);
@@ -304,18 +239,18 @@ class Validation extends StatefulWidget {
 class _ValidationState extends State<Validation> {
   @override
   Widget build(BuildContext context) {
-    return StreamProvider<List<AllLocations>?>.value(
-      value: DatabaseService().allLocations,
-      initialData: null,
+    return MultiProvider(
+      providers: [
+        StreamProvider<List<AllLocations>?>.value(
+          value: DatabaseService().allLocations,
+          initialData: null,
+        ),
+        StreamProvider<List<Location>?>.value(
+          value: DatabaseService().locations,
+          initialData: null,
+        ),
+      ],
       child: Confirmation(barcode: widget.barcode),
     );
   }
 }
-
-
-// class Reminder extends StatelessWidget {
-//   @override
- 
-// }
-
-

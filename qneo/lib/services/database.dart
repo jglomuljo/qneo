@@ -20,7 +20,8 @@ class DatabaseService {
       return Location(
           user: doc.get('User') ?? '',
           dateTime: doc.get('dateTime').toDate() ?? '',
-          location: doc.get('location') ?? '');
+          location: doc.get('location') ?? '',
+          status: doc.get('status') ?? '');
     }).toList();
   }
 
@@ -52,10 +53,13 @@ class DatabaseService {
   }
 
   //add a record in locations collection
-  Future updateUserData(String user, String locationID) async {
+  Future updateUserData(String user, String locationID, String status) async {
     var now = DateTime.now();
-    return await locationCollection
-        .doc()
-        .set({'User': user, 'location': locationID, 'dateTime': now});
+    return await locationCollection.doc().set({
+      'User': user,
+      'location': locationID,
+      'dateTime': now,
+      'status': status
+    });
   }
 }

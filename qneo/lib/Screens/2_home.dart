@@ -1,8 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:qr_code_scanner/qr_code_scanner.dart';
-// import 'package:provider/provider.dart';
-// import 'package:qneo/provider/google_sign_in.dart';
-//import 'package:flutter/src/widgets/framework.dart';
 import '3_userpage.dart';
 import '4_qrpage.dart';
 import '5_locationspage.dart';

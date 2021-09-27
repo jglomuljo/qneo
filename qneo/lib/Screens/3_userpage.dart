@@ -51,10 +51,12 @@ class UserPage extends StatelessWidget {
                 'Logout',
                 style: TextStyle(color: Colors.white),
               ),
-              onPressed: () {
+              onPressed: () async {
                 final provider =
                     Provider.of<GoogleSignInProvider>(context, listen: false);
-                provider.logout();
+                await provider.logout();
+                Navigator.pushReplacement(
+                    context, MaterialPageRoute(builder: (context) => Home()));
               },
             ),
           ],

@@ -24,6 +24,7 @@ class _LocationListState extends State<LocationList> {
         'User': record.user,
         'dateTime': record.dateTime,
         'location': record.location,
+        'status': record.status
       };
       userLocs.add(temp);
     }
