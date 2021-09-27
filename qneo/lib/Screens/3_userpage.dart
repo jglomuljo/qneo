@@ -15,7 +15,7 @@ class UserPage extends StatelessWidget {
       ),
       body: Container(
         alignment: Alignment.center,
-        color: Colors.blue[800],
+        color: Colors.white,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -27,7 +27,7 @@ class UserPage extends StatelessWidget {
             Text(
               'Name: ' + user.displayName!,
               style: TextStyle(
-                  color: Colors.white,
+                  color: Color(0xFF1E0FAC),
                   fontFamily: 'Comfortaa',
                   fontSize: 21,
                   letterSpacing: 0.5,
@@ -38,7 +38,7 @@ class UserPage extends StatelessWidget {
             Text(
               'E-mail: ' + user.email!,
               style: TextStyle(
-                  color: Colors.white,
+                  color: Color(0xFF1E0FAC),
                   fontFamily: 'Comfortaa',
                   fontSize: 16,
                   letterSpacing: 0.5,
@@ -49,7 +49,7 @@ class UserPage extends StatelessWidget {
             ElevatedButton(
               child: Text(
                 'Logout',
-                style: TextStyle(color: Colors.white),
+                style: TextStyle(color: Color(0xFF1E0FAC)),
               ),
               onPressed: () async {
                 final provider =

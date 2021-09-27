@@ -31,6 +31,7 @@ class _ProfilePageState extends State<ProfilePage> {
           child: Icon(
             Icons.qr_code_scanner_rounded,
           ),
+          backgroundColor: Color(0xFFFF99AA),
           onPressed: () {
             setState(() {
               screen = QRPage();
@@ -38,6 +39,7 @@ class _ProfilePageState extends State<ProfilePage> {
           }),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       bottomNavigationBar: BottomAppBar(
+          color: Color(0xFF1E0FAC),
           shape: CircularNotchedRectangle(),
           notchMargin: 10,
           child: Container(
@@ -61,14 +63,16 @@ class _ProfilePageState extends State<ProfilePage> {
                         children: [
                           Icon(
                             Icons.person_outline_rounded,
-                            color: currentTab == 0 ? Colors.blue : Colors.grey,
+                            color: currentTab == 0
+                                ? Color(0xFFFF99AA)
+                                : Color(0xFFFFFFFF),
                           ),
                           Text(
                             'Profile',
                             style: TextStyle(
                                 color: currentTab == 0
-                                    ? Colors.blue
-                                    : Colors.grey),
+                                    ? Color(0xFFFF99AA)
+                                    : Color(0xFFFFFFFF)),
                           )
                         ],
                       ),
@@ -91,14 +95,16 @@ class _ProfilePageState extends State<ProfilePage> {
                         children: [
                           Icon(
                             Icons.apartment_rounded,
-                            color: currentTab == 2 ? Colors.blue : Colors.grey,
+                            color: currentTab == 2
+                                ? Color(0xFFFF99AA)
+                                : Color(0xFFFFFFFF),
                           ),
                           Text(
                             'Recent Locations',
                             style: TextStyle(
                                 color: currentTab == 2
-                                    ? Colors.blue
-                                    : Colors.grey),
+                                    ? Color(0xFFFF99AA)
+                                    : Color(0xFFFFFFFF)),
                           )
                         ],
                       ),
