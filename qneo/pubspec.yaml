@@ -30,9 +30,13 @@ dependencies:
   cupertino_icons: ^1.0.2
 
   #setup
+  firebase_core: ^1.6.0
+  firebase_analytics: ^8.3.2
   firebase_auth: ^3.0.1
   google_sign_in: ^5.0.5
   cloud_firestore: ^2.5.0
+
+  rxdart: ^0.27.2
 
   #font-awesome
   font_awesome_flutter: ^9.1.0
