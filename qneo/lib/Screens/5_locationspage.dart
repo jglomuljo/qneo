@@ -29,6 +29,7 @@ class _LocationsPage extends State<LocationsPage> {
           ),
         ],
         child: Scaffold(
+          extendBody: true,
           appBar: AppBar(
             title:
                 Text('Recent Locations', style: TextStyle(color: Colors.white)),

@@ -38,6 +38,7 @@ class _QRScanPageState extends State<QRPage> {
   @override
   Widget build(BuildContext context) => SafeArea(
         child: Scaffold(
+          extendBody: true,
           body: Stack(
             alignment: Alignment.center,
             children: <Widget>[

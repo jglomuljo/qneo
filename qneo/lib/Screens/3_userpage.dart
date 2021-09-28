@@ -9,6 +9,7 @@ class UserPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final user = FirebaseAuth.instance.currentUser!;
     return Scaffold(
+      extendBody: true,
       appBar: AppBar(
         title: Text('Profile', style: TextStyle(color: Colors.white)),
         centerTitle: true,
