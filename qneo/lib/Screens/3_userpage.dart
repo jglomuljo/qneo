@@ -4,6 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:qneo/Screens/1_loginpage.dart';
 import 'package:qneo/provider/google_sign_in.dart';
 import 'package:provider/provider.dart';
+import 'headerwithpic.dart';
 
 class UserPage extends StatelessWidget {
   @override
@@ -13,147 +14,65 @@ class UserPage extends StatelessWidget {
 
     final user = FirebaseAuth.instance.currentUser!;
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       appBar: buildAppBar(),
-      body: Column(
-        children: <Widget>[
-          Container(
-            //wrap widget - headerwithpic
-            height: size.height * 0.3,
-            child: Stack(
-              children: <Widget>[
-                Container(
-                  height: size.height * 0.3 - 70,
-                  decoration: BoxDecoration(
-                    color: Color(0xFFA7DCCA),
-                    borderRadius: BorderRadius.only(
-                      bottomLeft: Radius.circular(45),
-                      bottomRight: Radius.circular(45),
+      body: SingleChildScrollView(
+        child: Column(
+          children: <Widget>[
+            HeaderWithPic(size: size, screenSize: screenSize, user: user),
+            Container(
+              height: 1,
+              child: Positioned(
+                child: Column(
+                  children: <Widget>[
+                    Container(
+                      padding: EdgeInsets.fromLTRB(0, 30, 0, 30),
+                      child: Text(
+                        user.displayName!,
+                        style: TextStyle(
+                            color: Color(0xFF1E0FAC),
+                            fontFamily: 'Comfortaa',
+                            fontSize: 21,
+                            letterSpacing: 0.5,
+                            fontWeight: FontWeight.bold),
+                      ),
                     ),
-                  ),
-                  child: Row(
-                    children: <Widget>[
-                      Image(
-                        image: AssetImage('assets/images/profiledeco.png'),
-                        width: screenSize.width * 1,
-                        height: screenSize.height * 3,
-                      )
-                    ],
-                  ),
-                ),
-                Positioned(
-                  bottom: 0,
-                  left: 0,
-                  right: 0,
-                  child: Container(
-                    margin: EdgeInsets.symmetric(horizontal: 30),
-                    child: Column(
-                      children: [
-                        CircleAvatar(
-                          radius: 80,
-                          backgroundImage: NetworkImage(user.photoURL!),
+                    Container(
+                      padding: EdgeInsets.fromLTRB(0, 0, 0, 30),
+                      child: Text(
+                        user.email!,
+                        style: TextStyle(
+                          color: Color(0xFF1E0FAC),
+                          fontFamily: 'Comfortaa',
+                          fontSize: 16,
+                          letterSpacing: 0.5,
                         ),
-                      ],
+                      ),
                     ),
-                  ),
+                    Container(
+                      child: ElevatedButton(
+                        child: Text(
+                          'Logout',
+                          style: TextStyle(color: Color(0xFF1E0FAC)),
+                        ),
+                        onPressed: () async {
+                          final provider = Provider.of<GoogleSignInProvider>(
+                              context,
+                              listen: false);
+                          await provider.logout();
+                          Navigator.pushReplacement(context,
+                              MaterialPageRoute(builder: (context) => Home()));
+                        },
+                      ),
+                    ),
+                  ],
                 ),
-              ],
-            ),
-          )
-        ],
+              ),
+            )
+          ],
+        ),
       ),
     );
-
-// Center(
-//                   //mainAxisAlignment: MainAxisAlignment.center,
-//                   child: Column(
-//                     children: [
-//                       SizedBox(height: 80),
-//                       Text(
-//                         user.displayName!,
-//                         style: TextStyle(
-//                             color: Color(0xFF1E0FAC),
-//                             fontFamily: 'Comfortaa',
-//                             fontSize: 21,
-//                             letterSpacing: 0.5,
-//                             fontWeight: FontWeight.bold),
-//                       ),
-//                       //Text(user.displayName!),
-//                       SizedBox(height: 20),
-//                       Text(
-//                         user.email!,
-//                         style: TextStyle(
-//                           color: Color(0xFF1E0FAC),
-//                           fontFamily: 'Comfortaa',
-//                           fontSize: 16,
-//                           letterSpacing: 0.5,
-//                         ),
-//                       ),
-//                       //Text(user.email!),
-//                       SizedBox(height: 30),
-//                       ElevatedButton(
-//                         child: Text(
-//                           'Logout',
-//                           style: TextStyle(color: Color(0xFF1E0FAC)),
-//                         ),
-//                         onPressed: () {
-//                           final provider = Provider.of<GoogleSignInProvider>(
-//                               context,
-//                               listen: false);
-//                           provider.logout();
-//                         },
-//                       ),
-//                     ],
-//                   ),
-//                 )
-
-    //       alignment: Alignment.center,
-    //       color: Colors.white,
-    //       child: Column(
-    //         mainAxisAlignment: MainAxisAlignment.center,
-    //         children: [
-    //           CircleAvatar(
-    //             radius: 70,
-    //             backgroundImage: NetworkImage(user.photoURL!),
-    //           ),
-    //           SizedBox(height: 40),
-    //           Text(
-    //             user.displayName!,
-    //             style: TextStyle(
-    //                 color: Color(0xFF1E0FAC),
-    //                 fontFamily: 'Comfortaa',
-    //                 fontSize: 21,
-    //                 letterSpacing: 0.5,
-    //                 fontWeight: FontWeight.bold),
-    //           ),
-    //           //Text(user.displayName!),
-    //           SizedBox(height: 20),
-    //           Text(
-    //             user.email!,
-    //             style: TextStyle(
-    //               color: Color(0xFF1E0FAC),
-    //               fontFamily: 'Comfortaa',
-    //               fontSize: 16,
-    //               letterSpacing: 0.5,
-    //             ),
-    //           ),
-    //           //Text(user.email!),
-    //           SizedBox(height: 30),
-    //           ElevatedButton(
-    //             child: Text(
-    //               'Logout',
-    //               style: TextStyle(color: Color(0xFF1E0FAC)),
-    //             ),
-    //             onPressed: () {
-    //               final provider =
-    //                   Provider.of<GoogleSignInProvider>(context, listen: false);
-    //               provider.logout();
-    //             },
-    //           ),
-    //         ],
-    //       ),
-    //     ),
-    //   );
-    // }
   }
 }
 
@@ -163,3 +82,48 @@ AppBar buildAppBar() {
     backgroundColor: Color(0xFFA7DCCA),
   );
 }
+
+
+          // Center(
+          //         child: Column(
+          //           children: [
+          //             SizedBox(height: 200),
+          //             Text(
+          //               user.displayName!,
+          //               style: TextStyle(
+          //                   color: Color(0xFF1E0FAC),
+          //                   fontFamily: 'Comfortaa',
+          //                   fontSize: 21,
+          //                   letterSpacing: 0.5,
+          //                   fontWeight: FontWeight.bold),
+          //             ),
+          //             //Text(user.displayName!),
+          //             SizedBox(height: 20),
+          //             Text(
+          //               user.email!,
+          //               style: TextStyle(
+          //                 color: Color(0xFF1E0FAC),
+          //                 fontFamily: 'Comfortaa',
+          //                 fontSize: 16,
+          //                 letterSpacing: 0.5,
+          //               ),
+          //             ),
+          //             //Text(user.email!),
+          //             SizedBox(height: 30),
+          //             ElevatedButton(
+          //               child: Text(
+          //                 'Logout',
+          //                 style: TextStyle(color: Color(0xFF1E0FAC)),
+          //               ),
+          //               onPressed: () async {
+          //                 final provider = Provider.of<GoogleSignInProvider>(
+          //                     context,
+          //                     listen: false);
+          //                 await provider.logout();
+          //                 Navigator.pushReplacement(context,
+          //                     MaterialPageRoute(builder: (context) => Home()));
+          //               },
+          //             ),
+          //           ],
+          //         ),
+          //       )
