@@ -17,58 +17,66 @@ class UserPage extends StatelessWidget {
       resizeToAvoidBottomInset: false,
       appBar: buildAppBar(),
       body: SingleChildScrollView(
+        physics: NeverScrollableScrollPhysics(),
         child: Column(
           children: <Widget>[
             HeaderWithPic(size: size, screenSize: screenSize, user: user),
             Container(
-              height: 1,
-              child: Positioned(
-                child: Column(
-                  children: <Widget>[
-                    Container(
-                      padding: EdgeInsets.fromLTRB(0, 30, 0, 30),
-                      child: Text(
-                        user.displayName!,
-                        style: TextStyle(
-                            color: Color(0xFF1E0FAC),
-                            fontFamily: 'Comfortaa',
-                            fontSize: 21,
-                            letterSpacing: 0.5,
-                            fontWeight: FontWeight.bold),
-                      ),
-                    ),
-                    Container(
-                      padding: EdgeInsets.fromLTRB(0, 0, 0, 30),
-                      child: Text(
-                        user.email!,
-                        style: TextStyle(
+              height: screenSize.height,
+              child: Column(
+                children: <Widget>[
+                  Container(
+                    padding: EdgeInsets.fromLTRB(0, 30, 0, 30),
+                    child: Text(
+                      user.displayName!,
+                      style: TextStyle(
                           color: Color(0xFF1E0FAC),
                           fontFamily: 'Comfortaa',
-                          fontSize: 16,
+                          fontSize: 21,
                           letterSpacing: 0.5,
-                        ),
+                          fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                  Container(
+                    padding: EdgeInsets.fromLTRB(0, 0, 0, 30),
+                    child: Text(
+                      user.email!,
+                      style: TextStyle(
+                        color: Color(0xFF1E0FAC),
+                        fontFamily: 'Comfortaa',
+                        fontSize: 16,
+                        letterSpacing: 0.5,
                       ),
                     ),
-                    Container(
-                      child: ElevatedButton(
+                  ),
+                  Container(
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(primary: Colors.red),
+                      child: Padding(
+                        padding: const EdgeInsets.all(12.0),
                         child: Text(
                           'Logout',
-                          style: TextStyle(color: Color(0xFF1E0FAC)),
+                          style: TextStyle(
+                            color: Colors.grey[100],
+                            fontFamily: 'Comfortaa',
+                            fontWeight: FontWeight.bold,
+                            fontSize: 18,
+                          ),
                         ),
-                        onPressed: () async {
-                          final provider = Provider.of<GoogleSignInProvider>(
-                              context,
-                              listen: false);
-                          await provider.logout();
-                          Navigator.pushReplacement(context,
-                              MaterialPageRoute(builder: (context) => Home()));
-                        },
                       ),
+                      onPressed: () async {
+                        final provider = Provider.of<GoogleSignInProvider>(
+                            context,
+                            listen: false);
+                        await provider.logout();
+                        Navigator.pushReplacement(context,
+                            MaterialPageRoute(builder: (context) => Home()));
+                      },
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
-            )
+            ),
           ],
         ),
       ),

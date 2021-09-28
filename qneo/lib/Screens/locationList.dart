@@ -4,6 +4,7 @@ import 'package:qneo/models/location.dart';
 import 'package:qneo/models/allLocations.dart';
 import 'package:qneo/Screens/location_tile.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:intl/intl.dart';
 
 class LocationList extends StatefulWidget {
   const LocationList({Key? key}) : super(key: key);
@@ -20,9 +21,10 @@ class _LocationListState extends State<LocationList> {
     final allLocations = Provider.of<List<AllLocations>?>(context) ?? [];
     List userLocs = [];
     for (final record in locations) {
+      String date = DateFormat("yyyy-MM-dd hh:mma").format(record.dateTime);
       var temp = {
         'User': record.user,
-        'dateTime': record.dateTime,
+        'dateTime': date,
         'location': record.location,
         'status': record.status
       };
