@@ -26,6 +26,18 @@ class UserPage extends StatelessWidget {
               child: Column(
                 children: <Widget>[
                   Container(
+                    padding: EdgeInsets.fromLTRB(0, 50, 0, 30),
+                    child: Text(
+                      "Greetings,",
+                      style: TextStyle(
+                          color: Color(0xFFFF99AA),
+                          fontFamily: 'Comfortaa',
+                          fontSize: 21,
+                          letterSpacing: 0.5,
+                          fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                  Container(
                     padding: EdgeInsets.fromLTRB(0, 30, 0, 30),
                     child: Text(
                       user.displayName!,
@@ -50,14 +62,35 @@ class UserPage extends StatelessWidget {
                     ),
                   ),
                   Container(
-                    child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(primary: Colors.red),
+                    padding: EdgeInsets.fromLTRB(0, 30, 0, 10),
+                    child: Text(
+                      "Not you?",
+                      style: TextStyle(
+                        color: Color(0xFFFF99AA),
+                        fontFamily: 'Comfortaa',
+                        fontSize: 16,
+                        letterSpacing: 0.5,
+                      ),
+                    ),
+                  ),
+                  Container(
+                    child: OutlinedButton(
+                      //style: ElevatedButton.styleFrom(primary: Colors.red),
+
+                      style: OutlinedButton.styleFrom(
+                          backgroundColor: Colors.transparent,
+                          side: BorderSide(
+                            color: Color(0xFF1E0FAC),
+                            width: 3,
+                          ),
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(50))),
                       child: Padding(
                         padding: const EdgeInsets.all(12.0),
                         child: Text(
                           'Logout',
                           style: TextStyle(
-                            color: Colors.grey[100],
+                            color: Color(0xFF1E0FAC),
                             fontFamily: 'Comfortaa',
                             fontWeight: FontWeight.bold,
                             fontSize: 18,
