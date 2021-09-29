@@ -1,4 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:qneo/models/allLocations.dart';
@@ -7,6 +8,7 @@ import 'package:qneo/services/database.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 import 'dart:io' show Platform;
 import '2_home.dart';
+import 'package:intl/intl.dart';
 
 class QRPage extends StatefulWidget {
   @override
@@ -159,6 +161,7 @@ class _ConfirmationState extends State<Confirmation> {
     List userLocs = [];
     var status = 'Time-in';
     var barcodeLocation = widget.barcode!.code.toString();
+
     for (final record in locations) {
       var temp = {
         'User': record.user,
@@ -170,15 +173,16 @@ class _ConfirmationState extends State<Confirmation> {
     }
     userLocs.sort((a, b) => b['dateTime'].compareTo(a['dateTime']));
 
+    //checks if user forgot to timeout
     if (userLocs.length > 0 &&
         userLocs[0]['status'] == 'Time-in' &&
         userLocs[0]['location'] != barcodeLocation) {
-      //barcodeLocation = userLocs[0]['location'];
       status = 'Time-out';
       DatabaseService()
           .updateUserData(user.uid.toString(), userLocs[0]['location'], status);
     }
 
+    //checks if user's last record was a time-in
     if (userLocs.length > 0 &&
         userLocs[0]['status'] == 'Time-in' &&
         userLocs[0]['location'] == barcodeLocation) {
@@ -207,28 +211,12 @@ class _ConfirmationState extends State<Confirmation> {
                     user.uid.toString(), barcodeLocation, status);
                 Navigator.pushReplacement(context,
                     MaterialPageRoute(builder: (context) => ProfilePage()));
-              }, //func here
+              },
               child: const Text('OK'),
             ),
           ],
         );
       }
-      // return AlertDialog(
-      //   shape: RoundedRectangleBorder(
-      //     borderRadius: BorderRadius.circular(50),
-      //   ),
-      //   title: Text('Scan Failed'),
-      //   content: const Text('Invalid Code'),
-      //   actions: <Widget>[
-      //     TextButton(
-      //       onPressed: () {
-      //         Navigator.pushReplacement(context,
-      //             MaterialPageRoute(builder: (context) => ProfilePage()));
-      //       },
-      //       child: const Text('Cancel'),
-      //     )
-      //   ],
-      // );
     }
     return Container();
   }

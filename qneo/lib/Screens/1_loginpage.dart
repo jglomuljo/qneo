@@ -29,8 +29,10 @@ class _HomeState extends State<Home> {
             height: screenSize.height,
             padding: EdgeInsets.symmetric(horizontal: 35, vertical: 50),
             child: SingleChildScrollView(
+              physics: NeverScrollableScrollPhysics(),
               child: Container(
-                  padding: EdgeInsets.fromLTRB(0, 100, 0, 30),
+                  padding:
+                      EdgeInsets.fromLTRB(0, screenSize.height * 0.05, 0, 30),
                   child: Column(
                     children: [
                       Image(
