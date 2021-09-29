@@ -78,13 +78,15 @@ class UserPage extends StatelessWidget {
                       //style: ElevatedButton.styleFrom(primary: Colors.red),
 
                       style: OutlinedButton.styleFrom(
-                          backgroundColor: Colors.transparent,
-                          side: BorderSide(
-                            color: Color(0xFF1E0FAC),
-                            width: 3,
-                          ),
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(50))),
+                        backgroundColor: Colors.transparent,
+                        side: BorderSide(
+                          color: Color(0xFF1E0FAC),
+                          width: 3,
+                        ),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(50),
+                        ),
+                      ),
                       child: Padding(
                         padding: const EdgeInsets.all(12.0),
                         child: Text(

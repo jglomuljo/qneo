@@ -112,16 +112,13 @@ class _QRScanPageState extends State<QRPage> {
   }
 
   Widget notebelow() => Text("Please align the QR code within the frame.",
-      maxLines: 10,
-      style: TextStyle(
-        color: Colors.white,
-      ));
+      maxLines: 14, style: TextStyle(color: Colors.white, fontSize: 18));
 
   Widget buildQrView(BuildContext context) => QRView(
         key: qrKey,
         onQRViewCreated: onQRViewCreated,
         overlay: QrScannerOverlayShape(
-          borderColor: Theme.of(context).accentColor,
+          borderColor: Color(0xFFA7DCCA),
           borderWidth: 10,
           borderLength: 20,
           borderRadius: 10,

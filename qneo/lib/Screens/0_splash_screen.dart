@@ -39,7 +39,7 @@ class _SplashscreenState extends State<Splashscreen> {
                   SizedBox(height: 15),
                   CircularProgressIndicator(
                     backgroundColor: Color(0xFF1E0FAC),
-                    valueColor: AlwaysStoppedAnimation(Color(0xFFD4EEE5)),
+                    valueColor: AlwaysStoppedAnimation(Color(0xFFA7DCCA)),
                     strokeWidth: 10,
                   ),
                 ]),

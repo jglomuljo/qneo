@@ -23,76 +23,77 @@ class _HomeState extends State<Home> {
     return Scaffold(
       body: Stack(children: [
         Container(
-          color: Colors.blue,
+          color: Colors.white,
           child: Container(
             width: screenSize.width,
             height: screenSize.height,
             padding: EdgeInsets.symmetric(horizontal: 35, vertical: 50),
             child: SingleChildScrollView(
               child: Container(
+                  padding: EdgeInsets.fromLTRB(0, 100, 0, 30),
                   child: Column(
-                children: [
-                  Image(
-                    image: AssetImage(
-                        'assets/images/Ateneo_de_Davao_University_logo.png'),
-                    width: screenSize.width * .45,
-                  ),
-                  SizedBox(height: 60),
-                  TextField(
-                    decoration: InputDecoration(
-                      fillColor: Colors.white,
-                      filled: true,
-                      enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(50),
-                          borderSide: BorderSide(color: Colors.transparent)),
-                      focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(50),
-                          borderSide: BorderSide(color: Colors.blue)),
-                      prefixIcon: Icon(
-                        Icons.person_outline,
-                        color: Colors.blue,
+                    children: [
+                      Image(
+                        image: AssetImage('assets/images/loginart.png'),
+                        width: screenSize.width * .9,
+                        //fit: BoxFit.fill,
                       ),
-                      hintText: 'E-mail',
-                    ),
-                  ),
-                  SizedBox(height: 10),
-                  TextField(
-                      decoration: InputDecoration(
-                    fillColor: Colors.white,
-                    filled: true,
-                    enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(50),
-                        borderSide: BorderSide(color: Colors.transparent)),
-                    focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(50),
-                        borderSide: BorderSide(color: Colors.blue)),
-                    prefixIcon: Icon(
-                      Icons.lock_open_outlined,
-                      color: Colors.blue,
-                    ),
-                    hintText: 'Password',
+                      SizedBox(height: 40),
+                      Text(
+                        "Q-NEO — a Personal Location Tracking app designed for Ateneo de Davao University Jacinto Campus",
+                        style: TextStyle(
+                          color: Color(0xFFFF99AA),
+                          fontFamily: 'Comfortaa',
+                          fontSize: 12,
+                          letterSpacing: 0.5,
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
+                      SizedBox(height: 40),
+                      ElevatedButton.icon(
+                        style: ElevatedButton.styleFrom(
+                            primary: Color(0xFF1E0FAC),
+                            onPrimary: Colors.white,
+                            minimumSize: Size(double.infinity, 50),
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(40))),
+                        icon: FaIcon(FontAwesomeIcons.google),
+                        label: Text(
+                          'Sign In with Google',
+                          style: TextStyle(
+                            fontFamily: 'Comfortaa',
+                          ),
+                        ),
+                        onPressed: () async {
+                          final provider = Provider.of<GoogleSignInProvider>(
+                              context,
+                              listen: false);
+                          await provider.googleLogin();
+                          Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => ProfilePage()));
+                        },
+                      ),
+                      SizedBox(height: 20),
+                      Text(
+                        "*Please use your school Google account.*",
+                        style: TextStyle(
+                          color: Color(0xFFFF99AA),
+                          fontFamily: 'Comfortaa',
+                          fontSize: 12,
+                          letterSpacing: 0.5,
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
+                      SizedBox(height: 40),
+                      Image(
+                        image: AssetImage(
+                            'assets/images/Ateneo_de_Davao_University_logo.png'),
+                        width: screenSize.width * .20,
+                      ),
+                    ],
                   )),
-                  SizedBox(height: 40),
-                  ElevatedButton.icon(
-                    style: ElevatedButton.styleFrom(
-                        primary: Colors.blue[800],
-                        onPrimary: Colors.white,
-                        minimumSize: Size(double.infinity, 50)),
-                    icon: FaIcon(FontAwesomeIcons.google),
-                    label: Text('Sign In with Google'),
-                    onPressed: () async {
-                      final provider = Provider.of<GoogleSignInProvider>(
-                          context,
-                          listen: false);
-                      await provider.googleLogin();
-                      Navigator.pushReplacement(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => ProfilePage()));
-                    },
-                  ),
-                ],
-              )),
             ),
           ),
         ),
