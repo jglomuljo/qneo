@@ -111,8 +111,16 @@ class _QRScanPageState extends State<QRPage> {
     }
   }
 
-  Widget notebelow() => Text("Please align the QR code within the frame.",
-      maxLines: 14, style: TextStyle(color: Colors.white, fontSize: 18));
+  Widget notebelow() => Padding(
+        padding: EdgeInsets.fromLTRB(0, 0, 0, 130),
+        child: Text("Please align the QR code within the frame.",
+            maxLines: 10,
+            style: TextStyle(
+                color: Colors.white,
+                fontSize: 14,
+                fontFamily: 'Comfortaa',
+                fontWeight: FontWeight.bold)),
+      );
 
   Widget buildQrView(BuildContext context) => QRView(
         key: qrKey,
