@@ -20,13 +20,15 @@ class _LocationListState extends State<LocationList> {
     final allLocations = Provider.of<List<AllLocations>?>(context) ?? [];
     List userLocs = [];
     for (final record in locations) {
-      var temp = {
-        'User': record.user,
-        'dateTime': record.dateTime,
-        'location': record.location,
-        'status': record.status
-      };
-      userLocs.add(temp);
+      if (record.user == user.uid) {
+        var temp = {
+          'User': record.user,
+          'dateTime': record.dateTime,
+          'location': record.location,
+          'status': record.status
+        };
+        userLocs.add(temp);
+      }
     }
 
     userLocs.sort((a, b) => b['dateTime'].compareTo(a['dateTime']));
@@ -34,13 +36,12 @@ class _LocationListState extends State<LocationList> {
     return ListView.builder(
       itemCount: userLocs.length,
       itemBuilder: (context, index) {
-        if (userLocs[index]["User"] == user.uid) {
-          for (var i = 0; i < allLocations.length; i++) {
-            if (allLocations[i].uid == userLocs[index]["location"]) {
-              return LocationTile(allLocations[i], userLocs[index]);
-            }
+        for (var i = 0; i < allLocations.length; i++) {
+          if (allLocations[i].uid == userLocs[index]["location"]) {
+            return LocationTile(allLocations[i], userLocs[index]);
           }
         }
+
         return SizedBox(height: 0);
       },
     );

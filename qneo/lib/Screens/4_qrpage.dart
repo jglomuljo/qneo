@@ -163,13 +163,15 @@ class _ConfirmationState extends State<Confirmation> {
     var barcodeLocation = widget.barcode!.code.toString();
 
     for (final record in locations) {
-      var temp = {
-        'User': record.user,
-        'dateTime': record.dateTime,
-        'location': record.location,
-        'status': record.status
-      };
-      userLocs.add(temp);
+      if (record.user == user.uid) {
+        var temp = {
+          'User': record.user,
+          'dateTime': record.dateTime,
+          'location': record.location,
+          'status': record.status
+        };
+        userLocs.add(temp);
+      }
     }
     userLocs.sort((a, b) => b['dateTime'].compareTo(a['dateTime']));
 
