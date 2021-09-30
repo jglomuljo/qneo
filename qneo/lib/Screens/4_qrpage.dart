@@ -173,14 +173,14 @@ class _ConfirmationState extends State<Confirmation> {
     }
     userLocs.sort((a, b) => b['dateTime'].compareTo(a['dateTime']));
 
-    //checks if user forgot to timeout
-    if (userLocs.length > 0 &&
-        userLocs[0]['status'] == 'Time-in' &&
-        userLocs[0]['location'] != barcodeLocation) {
-      status = 'Time-out';
-      DatabaseService()
-          .updateUserData(user.uid.toString(), userLocs[0]['location'], status);
-    }
+    // //checks if user forgot to timeout
+    // if (userLocs.length > 0 &&
+    //     userLocs[0]['status'] == 'Time-in' &&
+    //     userLocs[0]['location'] != barcodeLocation) {
+    //   status = 'Time-out';
+    //   DatabaseService()
+    //       .updateUserData(user.uid.toString(), userLocs[0]['location'], status);
+    // }
 
     //checks if user's last record was a time-in
     if (userLocs.length > 0 &&
@@ -207,6 +207,15 @@ class _ConfirmationState extends State<Confirmation> {
             ),
             ElevatedButton(
               onPressed: () async {
+                //checks if user forgot to timeout
+                if (userLocs.length > 0 &&
+                    userLocs[0]['status'] == 'Time-in' &&
+                    userLocs[0]['location'] != barcodeLocation) {
+                  status = 'Time-out';
+                  await DatabaseService().updateUserData(
+                      user.uid.toString(), userLocs[0]['location'], status);
+                  status = 'Time-in';
+                }
                 await DatabaseService().updateUserData(
                     user.uid.toString(), barcodeLocation, status);
                 Navigator.pushReplacement(context,
