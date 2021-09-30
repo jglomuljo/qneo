@@ -1,14 +1,21 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:qneo/models/location.dart';
 import 'package:qneo/models/allLocations.dart';
 
 class DatabaseService {
   //final String uid;
-  DatabaseService();
+  //DatabaseService();
 
-  //collection
-  final CollectionReference locationCollection =
-      FirebaseFirestore.instance.collection('locations');
+  //get user
+  static getUid() {
+    final user = FirebaseAuth.instance.currentUser!.uid;
+    return user.toString();
+  }
+
+  //collection of each user
+  CollectionReference locationCollection =
+      FirebaseFirestore.instance.collection(getUid());
 
 //collection of AllLocations
   final CollectionReference allLocationCollection =
@@ -39,7 +46,7 @@ class DatabaseService {
   //get location stream
   Stream<List<Location>> get locations {
     return FirebaseFirestore.instance
-        .collection("locations")
+        .collection(getUid())
         .snapshots()
         .map(_locationListFromSnapshot);
   }

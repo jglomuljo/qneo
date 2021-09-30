@@ -1,5 +1,4 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:qneo/models/allLocations.dart';
@@ -8,7 +7,6 @@ import 'package:qneo/services/database.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 import 'dart:io' show Platform;
 import '2_home.dart';
-import 'package:intl/intl.dart';
 
 class QRPage extends StatefulWidget {
   @override
@@ -46,11 +44,11 @@ class _QRScanPageState extends State<QRPage> {
             children: <Widget>[
               buildQrView(context),
               Positioned(
-                bottom: 50,
+                bottom: MediaQuery.of(context).size.height * 0.05,
                 child: reminder(),
               ),
               Positioned(
-                top: 50,
+                top: MediaQuery.of(context).size.height * 0.1,
                 child: buildControlButtons(),
               ),
             ],
@@ -129,10 +127,10 @@ class _QRScanPageState extends State<QRPage> {
         onQRViewCreated: onQRViewCreated,
         overlay: QrScannerOverlayShape(
           borderColor: Color(0xFFA7DCCA),
-          borderWidth: 10,
-          borderLength: 20,
-          borderRadius: 10,
-          cutOutSize: MediaQuery.of(context).size.width * 0.8,
+          borderWidth: MediaQuery.of(context).size.width * 0.03,
+          borderLength: MediaQuery.of(context).size.width * 0.1,
+          borderRadius: MediaQuery.of(context).size.width * 0.05,
+          cutOutSize: MediaQuery.of(context).size.width * 0.5,
         ),
       );
 
@@ -161,6 +159,8 @@ class _ConfirmationState extends State<Confirmation> {
     List userLocs = [];
     var status = 'Time-in';
     var barcodeLocation = widget.barcode!.code.toString();
+    var scanStatus = '';
+    var extraMsg = '';
 
     for (final record in locations) {
       if (record.user == user.uid) {
@@ -175,15 +175,6 @@ class _ConfirmationState extends State<Confirmation> {
     }
     userLocs.sort((a, b) => b['dateTime'].compareTo(a['dateTime']));
 
-    // //checks if user forgot to timeout
-    // if (userLocs.length > 0 &&
-    //     userLocs[0]['status'] == 'Time-in' &&
-    //     userLocs[0]['location'] != barcodeLocation) {
-    //   status = 'Time-out';
-    //   DatabaseService()
-    //       .updateUserData(user.uid.toString(), userLocs[0]['location'], status);
-    // }
-
     //checks if user's last record was a time-in
     if (userLocs.length > 0 &&
         userLocs[0]['status'] == 'Time-in' &&
@@ -191,45 +182,83 @@ class _ConfirmationState extends State<Confirmation> {
       status = 'Time-out';
     }
 
-    for (var i = 0; i < allLocations.length; i++) {
-      if (allLocations[i].uid == widget.barcode!.code) {
-        return AlertDialog(
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(50),
-          ),
-          title: Text('Scan Successful'),
-          content: const Text('Tap "OK" to record location.'),
-          actions: <Widget>[
-            TextButton(
-              onPressed: () {
-                Navigator.pushReplacement(context,
-                    MaterialPageRoute(builder: (context) => ProfilePage()));
-              },
-              child: const Text('Cancel'),
-            ),
-            ElevatedButton(
-              onPressed: () async {
-                //checks if user forgot to timeout
-                if (userLocs.length > 0 &&
-                    userLocs[0]['status'] == 'Time-in' &&
-                    userLocs[0]['location'] != barcodeLocation) {
-                  status = 'Time-out';
-                  await DatabaseService().updateUserData(
-                      user.uid.toString(), userLocs[0]['location'], status);
-                  status = 'Time-in';
-                }
-                await DatabaseService().updateUserData(
-                    user.uid.toString(), barcodeLocation, status);
-                Navigator.pushReplacement(context,
-                    MaterialPageRoute(builder: (context) => ProfilePage()));
-              },
-              child: const Text('OK'),
-            ),
-          ],
-        );
+    //checks if the scanned QR code is valid
+    var i = 0;
+    while (i < allLocations.length) {
+      if (allLocations[i].uid.contains(barcodeLocation)) {
+        scanStatus = 'Scan Successful';
+        extraMsg = 'Press \'OK\' to record location';
+        break;
+      } else {
+        scanStatus = 'Scan Failed: Invalid QR code';
+        extraMsg = 'Press \'Cancel\' to exit';
       }
+      i++;
     }
-    return Container();
+
+    //prompt after scanning the QR code
+    return AlertDialog(
+      shape: RoundedRectangleBorder(
+        borderRadius:
+            BorderRadius.circular(MediaQuery.of(context).size.height * 0.02),
+      ),
+      title: Text(scanStatus,
+          style: TextStyle(
+            fontFamily: 'Comfortaa',
+            fontWeight: FontWeight.bold,
+            fontSize: 16,
+            letterSpacing: 0.5,
+          )),
+      content: Text(extraMsg,
+          style: TextStyle(
+            fontFamily: 'Comfortaa',
+            fontWeight: FontWeight.bold,
+            fontSize: 14,
+            letterSpacing: 0.5,
+          )),
+      actions: <Widget>[
+        TextButton(
+          onPressed: () {
+            Navigator.pushReplacement(context,
+                MaterialPageRoute(builder: (context) => ProfilePage()));
+          },
+          child: const Text('Cancel',
+              style: TextStyle(
+                fontFamily: 'Comfortaa',
+                fontWeight: FontWeight.bold,
+                fontSize: 14,
+                letterSpacing: 0.5,
+              )),
+        ),
+        scanStatus == 'Scan Successful'
+            ? ElevatedButton(
+                onPressed: () async {
+                  //checks if user forgot to timeout
+                  if (userLocs.length > 0 &&
+                      userLocs[0]['status'] == 'Time-in' &&
+                      userLocs[0]['location'] != barcodeLocation) {
+                    status = 'Time-out';
+                    await DatabaseService().updateUserData(
+                        user.uid.toString(), userLocs[0]['location'], status);
+                    status = 'Time-in';
+                  }
+                  await DatabaseService().updateUserData(
+                      user.uid.toString(), barcodeLocation, status);
+                  Navigator.pushReplacement(context,
+                      MaterialPageRoute(builder: (context) => ProfilePage()));
+                },
+                child: const Text('OK',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontFamily: 'Comfortaa',
+                      fontWeight: FontWeight.bold,
+                      fontSize: 16,
+                      letterSpacing: 0.5,
+                    )),
+              )
+            : SizedBox(height: 0),
+      ],
+    );
   }
 }
 

@@ -18,6 +18,9 @@ class LocationTile extends StatelessWidget {
     return Padding(
       padding: EdgeInsets.only(top: 8.0),
       child: Card(
+        elevation: 10,
+        shadowColor: Colors.black,
+        //color: Color(0xFFA7DCCA),
         margin: EdgeInsets.fromLTRB(20, 6, 20, 6),
         child: ListTile(
           leading: CircleAvatar(
@@ -25,9 +28,25 @@ class LocationTile extends StatelessWidget {
             backgroundImage:
                 AssetImage('assets/images/${userLocations['status']}.png'),
           ),
-          title: Text(locations.building),
-          subtitle: Text(date.toString()),
-          trailing: Text(locations.room),
+          title: Text(locations.building,
+              style: TextStyle(
+                fontFamily: 'Comfortaa',
+                fontWeight: FontWeight.bold,
+                fontSize: 14,
+                letterSpacing: 0.5,
+              )),
+          subtitle: Text(date.toString(),
+              style: TextStyle(
+                fontFamily: 'Comfortaa',
+                fontSize: 10,
+                letterSpacing: 0.5,
+              )),
+          trailing: Text(locations.room,
+              style: TextStyle(
+                fontFamily: 'Comfortaa',
+                fontSize: 14,
+                letterSpacing: 0.5,
+              )),
         ),
       ),
     );

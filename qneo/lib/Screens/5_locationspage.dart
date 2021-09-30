@@ -29,10 +29,18 @@ class _LocationsPage extends State<LocationsPage> {
           ),
         ],
         child: Scaffold(
+          backgroundColor: Color(0xFFA7DCCA),
           extendBody: true,
           appBar: AppBar(
-            title:
-                Text('Recent Locations', style: TextStyle(color: Colors.white)),
+            backgroundColor: Color(0xFF1E0FAC),
+            title: Text('Recent Locations',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontFamily: 'Comfortaa',
+                  fontWeight: FontWeight.bold,
+                  fontSize: 18,
+                  letterSpacing: 0.5,
+                )),
           ),
           body: LocationList(),
         ));
