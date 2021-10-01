@@ -18,9 +18,12 @@ class LocationTile extends StatelessWidget {
     return Padding(
       padding: EdgeInsets.only(top: 8.0),
       child: Card(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
         elevation: 10,
         shadowColor: Colors.black,
-        //color: Color(0xFFA7DCCA),
+        color: userLocations['status'] == 'Time-in'
+            ? Color(0xFF97E6C8)
+            : Color(0xFFFFBDBF),
         margin: EdgeInsets.fromLTRB(20, 6, 20, 6),
         child: ListTile(
           leading: CircleAvatar(
