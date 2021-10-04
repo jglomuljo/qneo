@@ -197,9 +197,7 @@ class _ConfirmationState extends State<Confirmation> {
       i++;
     }
 
-    void recordData() {
-      _buttonPressed = true;
-      //checks if user forgot to timeout
+    Future checkPreviousLoc() async {
       if (userLocs.length > 0 &&
           userLocs[0]['status'] == 'Time-in' &&
           userLocs[0]['location'] != barcodeLocation) {
@@ -208,6 +206,12 @@ class _ConfirmationState extends State<Confirmation> {
             user.uid.toString(), userLocs[0]['location'], status);
         status = 'Time-in';
       }
+    }
+
+    Future recordData() async {
+      _buttonPressed = true;
+      //checks if user forgot to timeout
+      await checkPreviousLoc();
       DatabaseService()
           .updateUserData(user.uid.toString(), barcodeLocation, status);
       Navigator.pushReplacement(

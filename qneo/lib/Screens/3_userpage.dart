@@ -17,7 +17,7 @@ class UserPage extends StatelessWidget {
       resizeToAvoidBottomInset: false,
       appBar: buildAppBar(),
       body: SingleChildScrollView(
-        physics: NeverScrollableScrollPhysics(),
+        //physics: NeverScrollableScrollPhysics(),
         child: Column(
           children: <Widget>[
             HeaderWithPic(size: size, screenSize: screenSize, user: user),
