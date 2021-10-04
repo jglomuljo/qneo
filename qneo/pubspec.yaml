@@ -46,8 +46,16 @@ dependencies:
   qr_code_scanner: ^0.5.2
 
 dev_dependencies:
+  #app-icon
+  flutter_launcher_icons: ^0.9.2
+
   flutter_test:
     sdk: flutter
+    
+flutter_icons:
+  android: true
+  ios: true
+  image_path: "assets/images/icon.png"
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

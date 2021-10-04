@@ -161,6 +161,7 @@ class _ConfirmationState extends State<Confirmation> {
     var barcodeLocation = widget.barcode!.code.toString();
     var scanStatus = '';
     var extraMsg = '';
+    bool _buttonPressed = false;
 
     for (final record in locations) {
       if (record.user == user.uid) {
@@ -194,6 +195,23 @@ class _ConfirmationState extends State<Confirmation> {
         extraMsg = 'Press \'Cancel\' to exit';
       }
       i++;
+    }
+
+    void recordData() {
+      _buttonPressed = true;
+      //checks if user forgot to timeout
+      if (userLocs.length > 0 &&
+          userLocs[0]['status'] == 'Time-in' &&
+          userLocs[0]['location'] != barcodeLocation) {
+        status = 'Time-out';
+        DatabaseService().updateUserData(
+            user.uid.toString(), userLocs[0]['location'], status);
+        status = 'Time-in';
+      }
+      DatabaseService()
+          .updateUserData(user.uid.toString(), barcodeLocation, status);
+      Navigator.pushReplacement(
+          context, MaterialPageRoute(builder: (context) => ProfilePage()));
     }
 
     //prompt after scanning the QR code
@@ -232,21 +250,7 @@ class _ConfirmationState extends State<Confirmation> {
         ),
         scanStatus == 'Scan Successful'
             ? ElevatedButton(
-                onPressed: () async {
-                  //checks if user forgot to timeout
-                  if (userLocs.length > 0 &&
-                      userLocs[0]['status'] == 'Time-in' &&
-                      userLocs[0]['location'] != barcodeLocation) {
-                    status = 'Time-out';
-                    await DatabaseService().updateUserData(
-                        user.uid.toString(), userLocs[0]['location'], status);
-                    status = 'Time-in';
-                  }
-                  await DatabaseService().updateUserData(
-                      user.uid.toString(), barcodeLocation, status);
-                  Navigator.pushReplacement(context,
-                      MaterialPageRoute(builder: (context) => ProfilePage()));
-                },
+                onPressed: _buttonPressed ? null : recordData,
                 child: const Text('OK',
                     style: TextStyle(
                       color: Colors.white,
