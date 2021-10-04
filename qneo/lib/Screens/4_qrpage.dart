@@ -244,17 +244,29 @@ class _ConfirmationState extends State<Confirmation> {
             Navigator.pushReplacement(context,
                 MaterialPageRoute(builder: (context) => ProfilePage()));
           },
-          child: const Text('Cancel',
-              style: TextStyle(
-                fontFamily: 'Comfortaa',
-                fontWeight: FontWeight.bold,
-                fontSize: 14,
-                letterSpacing: 0.5,
-              )),
+          child: const Text(
+            'Cancel',
+            style: TextStyle(
+              fontFamily: 'Comfortaa',
+              fontWeight: FontWeight.bold,
+              fontSize: 14,
+              letterSpacing: 0.5,
+              color: Color(0xFF1e0fac),
+            ),
+          ),
         ),
         scanStatus == 'Scan Successful'
             ? ElevatedButton(
                 onPressed: _buttonPressed ? null : recordData,
+                style: ButtonStyle(
+                  backgroundColor:
+                      MaterialStateProperty.all<Color>(Color(0xFF1e0fac)),
+                  shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                    RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(14),
+                    ),
+                  ),
+                ),
                 child: const Text('OK',
                     style: TextStyle(
                       color: Colors.white,
