@@ -198,7 +198,9 @@ class _ConfirmationState extends State<Confirmation> {
     }
 
     Future recordData() async {
-      _buttonPressed = true;
+      setState(() {
+        _buttonPressed = true;
+      });
       //checks if user forgot to timeout
       if (userLocs.length > 0 &&
           userLocs[0]['status'] == 'Time-in' &&
