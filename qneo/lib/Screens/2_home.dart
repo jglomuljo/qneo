@@ -14,14 +14,9 @@ class ProfilePage extends StatefulWidget {
 
 class _ProfilePageState extends State<ProfilePage> {
   int currentTab = 0;
-  final List<Widget> screens = [
-    UserPage(),
-    QRPage(),
-    LocationsPage(),
-  ];
+  Widget screen = UserPage();
 
   final PageStorageBucket bucket = PageStorageBucket();
-  Widget screen = UserPage();
 
   @override
   Widget build(BuildContext context) {
@@ -36,6 +31,7 @@ class _ProfilePageState extends State<ProfilePage> {
           onPressed: () {
             setState(() {
               screen = QRPage();
+              currentTab = 1;
             });
           }),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,

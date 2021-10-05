@@ -176,13 +176,6 @@ class _ConfirmationState extends State<Confirmation> {
     }
     userLocs.sort((a, b) => b['dateTime'].compareTo(a['dateTime']));
 
-    //checks if user's last record was a time-in
-    if (userLocs.length > 0 &&
-        userLocs[0]['status'] == 'Time-in' &&
-        userLocs[0]['location'] == barcodeLocation) {
-      status = 'Time-out';
-    }
-
     //checks if the scanned QR code is valid
     var i = 0;
     while (i < allLocations.length) {
@@ -197,21 +190,31 @@ class _ConfirmationState extends State<Confirmation> {
       i++;
     }
 
-    Future recordData() async {
-      setState(() {
-        _buttonPressed = true;
-      });
+    void checkConditions() async {
       //checks if user forgot to timeout
       if (userLocs.length > 0 &&
           userLocs[0]['status'] == 'Time-in' &&
           userLocs[0]['location'] != barcodeLocation) {
-        status = 'Time-out';
-        DatabaseService().updateUserData(
-            user.uid.toString(), userLocs[0]['location'], status);
+        await DatabaseService().updateUserData(
+            user.uid.toString(), userLocs[0]['location'], 'Time-out');
         status = 'Time-in';
       }
-      DatabaseService()
+
+      //checks if user's last record was a time-in
+      if (userLocs.length > 0 &&
+          userLocs[0]['status'] == 'Time-in' &&
+          userLocs[0]['location'] == barcodeLocation) {
+        status = 'Time-out';
+      }
+
+      await DatabaseService()
           .updateUserData(user.uid.toString(), barcodeLocation, status);
+    }
+
+    void recordData() {
+      _buttonPressed = true;
+      checkConditions();
+
       Navigator.pushReplacement(
           context, MaterialPageRoute(builder: (context) => ProfilePage()));
     }
