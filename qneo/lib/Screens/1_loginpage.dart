@@ -56,7 +56,8 @@ class _HomeState extends State<Home> {
                         style: ElevatedButton.styleFrom(
                             primary: Color(0xFF1E0FAC),
                             onPrimary: Colors.white,
-                            minimumSize: Size(double.infinity, 50),
+                            minimumSize:
+                                Size(double.infinity, screenSize.width * .13),
                             shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(40))),
                         icon: FaIcon(FontAwesomeIcons.google),

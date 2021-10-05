@@ -17,16 +17,17 @@ class UserPage extends StatelessWidget {
       resizeToAvoidBottomInset: false,
       appBar: buildAppBar(),
       body: SingleChildScrollView(
-        //physics: NeverScrollableScrollPhysics(),
+        physics: NeverScrollableScrollPhysics(),
         child: Column(
           children: <Widget>[
             HeaderWithPic(size: size, screenSize: screenSize, user: user),
             Container(
-              height: screenSize.height,
+              //height: screenSize.height,
               child: Column(
                 children: <Widget>[
                   Container(
-                    padding: EdgeInsets.fromLTRB(0, 50, 0, 30),
+                    padding: EdgeInsets.fromLTRB(0, screenSize.height * 0.1, 0,
+                        screenSize.height * 0.01),
                     child: Text(
                       "Greetings,",
                       style: TextStyle(
@@ -38,7 +39,8 @@ class UserPage extends StatelessWidget {
                     ),
                   ),
                   Container(
-                    padding: EdgeInsets.fromLTRB(0, 30, 0, 30),
+                    padding: EdgeInsets.fromLTRB(0, screenSize.height * 0.05, 0,
+                        screenSize.height * 0.02),
                     child: Text(
                       user.displayName!,
                       style: TextStyle(
@@ -50,7 +52,8 @@ class UserPage extends StatelessWidget {
                     ),
                   ),
                   Container(
-                    padding: EdgeInsets.fromLTRB(0, 0, 0, 30),
+                    padding:
+                        EdgeInsets.fromLTRB(0, 0, 0, screenSize.height * 0.01),
                     child: Text(
                       user.email!,
                       style: TextStyle(
@@ -62,7 +65,8 @@ class UserPage extends StatelessWidget {
                     ),
                   ),
                   Container(
-                    padding: EdgeInsets.fromLTRB(0, 30, 0, 10),
+                    padding: EdgeInsets.fromLTRB(0, screenSize.height * 0.03, 0,
+                        screenSize.height * 0.01),
                     child: Text(
                       "Not you?",
                       style: TextStyle(

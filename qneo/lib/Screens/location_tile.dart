@@ -13,6 +13,7 @@ class LocationTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Size screenSize = MediaQuery.of(context).size;
     String date =
         DateFormat("yyyy-MM-dd hh:mma").format(userLocations['dateTime']);
     return Padding(
@@ -24,7 +25,12 @@ class LocationTile extends StatelessWidget {
         color: userLocations['status'] == 'Time-in'
             ? Color(0xFF97E6C8)
             : Color(0xFFFFBDBF),
-        margin: EdgeInsets.fromLTRB(20, 6, 20, 6),
+        margin: EdgeInsets.fromLTRB(
+          screenSize.width * .05,
+          screenSize.height * .005,
+          screenSize.width * .05,
+          screenSize.height * .005,
+        ),
         child: ListTile(
           leading: CircleAvatar(
             radius: 25,
