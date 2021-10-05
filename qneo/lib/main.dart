@@ -21,7 +21,7 @@ class MyApp extends StatelessWidget {
       create: (context) => GoogleSignInProvider(),
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
-        title: 'Flutter Demo',
+        title: 'Q-NEO',
         theme: ThemeData(
           primarySwatch: Colors.lightBlue,
         ),
