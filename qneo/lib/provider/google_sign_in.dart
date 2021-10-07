@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:qneo/Screens/1_loginpage.dart';
 import 'package:qneo/Screens/2_home.dart';
+import 'package:qneo/services/database.dart';
 
 class GoogleSignInProvider extends ChangeNotifier {
   final googleSignIn = GoogleSignIn();
@@ -25,7 +26,9 @@ class GoogleSignInProvider extends ChangeNotifier {
       );
 
       await FirebaseAuth.instance.signInWithCredential(credential);
-
+      final user = FirebaseAuth.instance.currentUser!;
+      await DatabaseService()
+          .updateUserCollection(user.uid, user.displayName!, user.email!);
       return ProfilePage();
     } catch (e) {
       print(e.toString());

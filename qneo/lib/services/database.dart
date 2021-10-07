@@ -17,6 +17,10 @@ class DatabaseService {
   CollectionReference locationCollection =
       FirebaseFirestore.instance.collection(getUid());
 
+  //collection of each user
+  CollectionReference userCollection =
+      FirebaseFirestore.instance.collection('Users');
+
 //collection of AllLocations
   final CollectionReference allLocationCollection =
       FirebaseFirestore.instance.collection('AllLocations');
@@ -67,6 +71,15 @@ class DatabaseService {
       'location': locationID,
       'dateTime': now,
       'status': status
+    });
+  }
+
+  //add a record in locations collection
+  Future updateUserCollection(String uid, String user, String email) async {
+    return await userCollection.doc(uid).set({
+      'UID': uid,
+      'Name': user,
+      'E-mail': email,
     });
   }
 }
