@@ -161,6 +161,7 @@ class _ConfirmationState extends State<Confirmation> {
     var barcodeLocation = widget.barcode!.code.toString();
     var scanStatus = '';
     var extraMsg = '';
+    var scannedLoc = '';
     bool _buttonPressed = false;
 
     for (final record in locations) {
@@ -181,7 +182,9 @@ class _ConfirmationState extends State<Confirmation> {
     while (i < allLocations.length) {
       if (allLocations[i].uid.contains(barcodeLocation)) {
         scanStatus = 'Scan Successful';
-        extraMsg = 'Press \'OK\' to record location';
+        scannedLoc =
+            'Scanned: ${allLocations[i].building} - ${allLocations[i].room}';
+        extraMsg = scannedLoc + '\n\nPress \'OK\' to record location';
         break;
       } else {
         scanStatus = 'Scan Failed: Invalid QR code';
@@ -236,7 +239,7 @@ class _ConfirmationState extends State<Confirmation> {
           style: TextStyle(
             fontFamily: 'Comfortaa',
             fontWeight: FontWeight.bold,
-            fontSize: 14,
+            fontSize: 12,
             letterSpacing: 0.5,
           )),
       actions: <Widget>[
